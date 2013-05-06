@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'nokogiri'
 
-describe Fdoc::HTML::EndpointPresenter do
+describe Fdoc::EndpointPresenter do
   subject {
     described_class.new(endpoint)
   }

@@ -1,5 +1,5 @@
 # An HtmlPresenter for Fdoc::Service
-class Fdoc::ServicePresenter < Fdoc::HtmlPresenter
+class Fdoc::ServicePresenter < Fdoc::BasePresenter
   attr_reader :service
 
   def initialize(service, options = {})
@@ -45,6 +45,30 @@ class Fdoc::ServicePresenter < Fdoc::HtmlPresenter
 
     @endpoints
   end
+
+
+  def html_endpoints
+    if !@endpoints
+      @endpoints = []
+      prefix = nil
+
+      service.endpoints.sort_by(&:endpoint_path).each do |endpoint|
+        presenter = Fdoc::HTML::EndpointPresenter.new(endpoint, options)
+        presenter.service_presenter = self
+        presenter
+
+        current_prefix = presenter.prefix
+
+        @endpoints << [] if prefix != current_prefix
+        @endpoints.last << presenter
+
+        prefix = current_prefix
+      end
+    end
+
+    @endpoints
+  end
+
 
   def description
     render_markdown(service.description)

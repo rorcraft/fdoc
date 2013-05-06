@@ -1,5 +1,5 @@
 # HtmlPresenter for an Endpoint
-class Fdoc::EndpointPresenter < Fdoc::HtmlPresenter
+class Fdoc::EndpointPresenter < Fdoc::BasePresenter
   attr_accessor :service_presenter, :endpoint
 
   def initialize(endpoint, options = {})
@@ -7,28 +7,6 @@ class Fdoc::EndpointPresenter < Fdoc::HtmlPresenter
     @endpoint = endpoint
   end
 
-  def to_html
-    render_erb('endpoint.html.erb')
-  end
-
-  def name
-    <<-EOS
-    <span class="endpoint-name #{@endpoint.deprecated? ? 'deprecated' : nil}">
-      <span class="verb">#{@endpoint.verb}</span>
-      <span class="root">#{zws_ify(@endpoint.service.base_path)}</span><span
-       class="path">#{zws_ify(@endpoint.path)}</span>
-      #{@endpoint.deprecated? ? '(deprecated)' : nil}
-    </span>
-    EOS
-  end
-
-  def name_as_link
-    <<-EOS
-    <a href="#{url}">
-      #{name}
-    </a>
-    EOS
-  end
 
   def url(extension = ".html")
     '%s%s-%s%s' % [ options[:prefix], endpoint.path, endpoint.verb, extension ]

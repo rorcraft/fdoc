@@ -42,7 +42,7 @@ module Fdoc
         inside_service_presenter(service_presenter) do
           create_file("index.html", service_presenter.to_html)
 
-          service_presenter.endpoints.each do |endpoint_prefix_group|
+          service_presenter.html_endpoints.each do |endpoint_prefix_group|
             endpoint_prefix_group.each do |endpoint|
               create_file(endpoint.url, endpoint.to_html)
             end
